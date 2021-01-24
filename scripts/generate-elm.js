@@ -10,6 +10,11 @@ const tailwindBaseWithDarkPath = './node_modules/tailwindcss/dist/tailwind-dark.
 const tailwindCustomFormsPath = './node_modules/@tailwindcss/custom-forms/dist/custom-forms.css';
 
 
+const objToMinimalElmTailwindClassFunction = obj => `
+${obj.elmName} : TailwindClass
+${obj.elmName} = TailwindClass "${obj.name}"
+`;
+
 const objToElmTailwindClassFunction = obj => `
 {-| Maps to the "${obj.name}" Tailwind class, defined as:
 
@@ -30,94 +35,15 @@ const elmTailwindBaseWithDarkTemplate = objects =>
 
 These functions correspond to classes in Tailwind. __NOTE__: this file is generated \`scripts/generate-elm.js\`
 
-# Responsive variant helpers
-
-@docs sm, md, lg, xl, xxl
-
-# group-hover variant helper
-
-@docs groupHover
-
-# Dark variant helper
-
-@docs dark
-
 # Using these docs
 
 To use this library you probably want to refer mostly to the [tailwind docs](https://tailwindcss.com).
 
 On top of that the conversion rules as explained in this project's __README__ are helpful in translating the Tailwind CSS class names to the names explosed by the module.
 
-# Classes and their definitions
-
-@docs ${objects.map(({ elmName }) => elmName).join(', ')}
-
 -}
 
 import Tailwind.Types exposing (TailwindClass(..))
-
-{-| Add a size prefix to the tailwind rule, making it only apply to that screen size and above.
-  Notice, doesn't make sure the class being passed in is going to work with a responsive prefix: not all tailwind rules are responsive-capable.
--}
-sm : TailwindClass -> TailwindClass
-sm (TailwindClass c) =
-  TailwindClass ("sm:" ++ c)
-
-{-| Add a size prefix to the tailwind rule, making it only apply to that screen size and above.
-  Notice, doesn't make sure the class being passed in is going to work with a responsive prefix: not all tailwind rules are responsive-capable.
--}
-md : TailwindClass -> TailwindClass
-md (TailwindClass c) =
-  TailwindClass ("md:" ++ c)
-
-{-| Add a size prefix to the tailwind rule, making it only apply to that screen size and above.
-  Notice, doesn't make sure the class being passed in is going to work with a responsive prefix: not all tailwind rules are responsive-capable.
--}
-lg : TailwindClass -> TailwindClass
-lg (TailwindClass c) =
-  TailwindClass ("lg:" ++ c)
-
-{-| Add a size prefix to the tailwind rule, making it only apply to that screen size and above.
-  Notice, doesn't make sure the class being passed in is going to work with a responsive prefix: not all tailwind rules are responsive-capable.
--}
-xl : TailwindClass -> TailwindClass
-xl (TailwindClass c) =
-  TailwindClass ("xl:" ++ c)
-
-{-| Add a size prefix to the tailwind rule, making it only apply to that screen size and above.
-  Notice, doesn't make sure the class being passed in is going to work with a responsive prefix: not all tailwind rules are responsive-capable.
--}
-xxl : TailwindClass -> TailwindClass
-xxl (TailwindClass c) =
-  TailwindClass ("2xl:" ++ c)
-
-{-| Add a focus-within variant prefix to the Tailwind rule, rules tagged by this variant only apply when inside element has focus.
-  Notice, doesn't make sure the class being passed in is going to work with a dark prefix: not all tailwind rules are dark capable.
--}
-focusWithin : TailwindClass -> TailwindClass
-focusWithin (TailwindClass c) =
-  TailwindClass ("focus-within:" ++ c)
-
-{-| Add a hover variant prefix to the Tailwind rule, rules tagged by this variant only apply when hovered.
-  Notice, doesn't make sure the class being passed in is going to work with a dark prefix: not all tailwind rules are dark capable.
--}
-hover : TailwindClass -> TailwindClass
-hover (TailwindClass c) =
-  TailwindClass ("hover:" ++ c)
-
-{-| Add a focus variant prefix to the Tailwind rule, rules tagged by this variant only apply when focused.
-  Notice, doesn't make sure the class being passed in is going to work with a dark prefix: not all tailwind rules are dark capable.
--}
-focus : TailwindClass -> TailwindClass
-focus (TailwindClass c) =
-  TailwindClass ("focus:" ++ c)
-
-{-| Add a group-hover variant prefix to the Tailwind rule, rules tagged by this variant only apply when a marked ancestor element in hovered.
-  Notice, doesn't make sure the class being passed in is going to work with a group-hover prefix: not all tailwind rules are group-hover capable.
--}
-groupHover : TailwindClass -> TailwindClass
-groupHover (TailwindClass c) =
-  TailwindClass ("group-hover:" ++ c)
 
 {-| The group CSS class work together with the groupHover variant. With group the parent is marked hover triggers are started from.
 -}
@@ -125,20 +51,13 @@ group : TailwindClass
 group =
   TailwindClass "group"
 
-{-| Add a dark variant prefix to the Tailwind rule, rules tagged by this variant only apply when the dark mode is on or the darkClass is provided.
-  Notice, doesn't make sure the class being passed in is going to work with a dark prefix: not all tailwind rules are dark capable.
--}
-dark : TailwindClass -> TailwindClass
-dark (TailwindClass c) =
-  TailwindClass ("dark:" ++ c)
-
 {-| The dark CSS class works together with the dark variant.
 -}
 darkClass : TailwindClass
 darkClass =
   TailwindClass "dark"
 
-${objects.map(objToElmTailwindClassFunction).join('')}`;
+${objects.map(objToMinimalElmTailwindClassFunction).join('')}`;
 
 
 
@@ -202,36 +121,19 @@ _.forOwn(contexts, ((ctx, ctxId) => { ctx.cssIn.walkRules((rule) => {
   if (!rule.selector.startsWith('.')) return;
 
   //
-  // Ignore responsive variations in favor of using utility classes for that
-  //
-  if (rule.selector.startsWith('.sm\\:')) return;
-  if (rule.selector.startsWith('.md\\:')) return;
-  if (rule.selector.startsWith('.lg\\:')) return;
-  if (rule.selector.startsWith('.xl\\:')) return;
-  if (rule.selector.startsWith('.\\32xl\\:')) return; // '\32' denotes the '2' in '2xl'
-
-  //
-  // Ignore group-hover variants
+  // Ignore group-hover class
   //
   if (rule.selector.startsWith('.group:hover ')) return;
-  if (rule.selector.startsWith('.group-hover\\:')) return;
 
   //
-  // Ignore hover and focus variants
-  //
-  if (rule.selector.startsWith('.hover\\:')) return;
-  if (rule.selector.startsWith('.focus\\:')) return;
-
-  //
-  // Ignore dark variants
+  // Ignore dark class
   //
   if (rule.selector.startsWith('.dark ')) return;
-  if (rule.selector.search(/dark\\:/) !== -1) return;  // -1 indicates no match
 
   //
   // Ignore rules that select an :after or :before
   //
-  if (rule.selector.indexOf(':after') != -1 || rule.selector.indexOf(':before') != -1) {
+  if (rule.selector.search(/:after$/) != -1 || rule.selector.search(/:before$/) != -1) {
     return;
   }
 
@@ -260,11 +162,48 @@ _.forOwn(contexts, ((ctx, ctxId) => { ctx.cssIn.walkRules((rule) => {
   //
   name = name.split(/[, ]/)[0];
 
+  //
+  // Replace the "\32xl" with "2xl"
+  //
+  name = name.replace(/\\32xl/g, '2xl');
+
+  //
+  // Replace the "\\\:" with ":"
+  //
+  name = name.replace(/\\\\:/g, ':');
+
+  //
+  // Replace the "\:" with ":"
+  //
+  name = name.replace(/\\:/g, ':');
+
+  //
+  // Remove :focus
+  //
+  name = name.replace(/:focus$/, '');
+
+  //
+  // Remove :focus
+  //
+  name = name.replace(/:focus-within$/, '');
+
+  //
+  // Remove :hover
+  //
+  name = name.replace(/:hover$/, '');
+  
+  //
+  // Cleanup escaping from fractions
+  //
+  name = name.replace(/(\d+)\\\/(\d+)/g, '$1/$2');
+  
+  //
+  // Cleanup escaping from decimal dots
+  //
+  name = name.replace(/(\d+)\\\.(\d+)/g, '$1.$2');
+
+
   let elmName = name;
-  //
-  // Replace the \: with a __
-  //
-  elmName = elmName.split('\\:').join('__');
 
   //
   // Replace the negative margin with a 'neg'
@@ -275,7 +214,7 @@ _.forOwn(contexts, ((ctx, ctxId) => { ctx.cssIn.walkRules((rule) => {
   // Change a leading dash to a 'neg'
   //
   elmName = elmName.replace(/^-/, 'neg');
-  elmName = elmName.replace(/__-/, ':neg');  // : is already replaced by __
+  elmName = elmName.replace(/:-/, ':neg');
 
   //
   // Replace dashes with underscores
@@ -283,54 +222,24 @@ _.forOwn(contexts, ((ctx, ctxId) => { ctx.cssIn.walkRules((rule) => {
   elmName = elmName.replace(/-/g, '_');
 
   //
+  // Replace dashes with underscores
+  //
+  elmName = elmName.replace(/2xl:/g, 'xxl:');
+
+  //
   // Change decimal dot (only in .5) to 'dot'
   //
-  elmName = elmName.replace(/(\d+)\\\.(\d)/, '$1dot$2');
+  elmName = elmName.replace(/(\d+)\.(\d)/, '$1dot$2');
 
   //
   // Change the \/ in fractions to `over`
   //
-  elmName = elmName.replace(/\\\//g, 'over');
+  elmName = elmName.replace(/\//g, 'over');
 
   //
-  // Remove :focus
+  // Replace the ":" with a "__"
   //
-  elmName = elmName.replace(':focus', '');
-
-  //
-  // Remove :hover
-  //
-  elmName = elmName.replace(':hover', '');
-
-  //
-  // Before using "name", but after basing elmName on it, do the following:
-  //
-
-  //
-  // Escape the backslash in the Elm string
-  //
-  name = name.replace(/\\\//g, '/');
-  name = name.replace(/\\/g, '\\\\');
-
-  //
-  // Replace focus\\: with focus:
-  //
-  name = name.replace('focus\\\\:', 'focus:');
-
-  //
-  // Remove :focus
-  //
-  name = name.replace(':focus', '');
-
-  //
-  // Replace hover\\: with hover:
-  //
-  name = name.replace('hover\\\\:', 'hover:')
-
-  //
-  // Remove :hover
-  //
-  name = name.replace(':hover', '');
+  elmName = elmName.replace(/:/g, '__');
 
   const obj = {
     name,

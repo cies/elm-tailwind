@@ -3,7 +3,7 @@
     "name": "afidegnum/elm-tailwind",
     "summary": "Tailwind  HTML/CSS Framework for Elm 0.19",
     "license": "MIT",
-    "version": "2.0.0",
+    "version": "3.0.0",
     "exposed-modules": [
         "Tailwind",
         "Tailwind.Classes",

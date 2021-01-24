@@ -1,6 +1,6 @@
 {
   "name": "generate-elm-from-tailwind",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Generate Elm library based on Tailwind CSS",
   "main": "generate-elm.js",
   "scripts": {
