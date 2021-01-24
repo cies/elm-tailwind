@@ -26,8 +26,6 @@ ${obj.elmName} =
 const elmTailwindBaseWithDarkTemplate = objects =>
 `module Tailwind.Classes exposing (..)
 
-import Tailwind.Types exposing (TailwindClass(..))
-
 {-|
 
 These functions correspond to classes in Tailwind. __NOTE__: this file is generated \`scripts/generate-elm.js\`
@@ -55,6 +53,8 @@ On top of that the conversion rules as explained in this project's __README__ ar
 @docs ${objects.map(({ elmName }) => elmName).join(', ')}
 
 -}
+
+import Tailwind.Types exposing (TailwindClass(..))
 
 {-| Add a size prefix to the tailwind rule, making it only apply to that screen size and above.
   Notice, doesn't make sure the class being passed in is going to work with a responsive prefix: not all tailwind rules are responsive-capable.
@@ -145,8 +145,6 @@ ${objects.map(objToElmTailwindClassFunction).join('')}`;
 const elmTailwindCustomFormsTemplate = objects =>
 `module Tailwind.CustomFormClasses exposing (..)
 
-import Tailwind.Types exposing (TailwindClass(..))
-
 {-|
 
 # Classes and their definitions
@@ -154,6 +152,8 @@ import Tailwind.Types exposing (TailwindClass(..))
 @docs ${objects.map(({ elmName }) => elmName).join(', ')}
 
 -}
+
+import Tailwind.Types exposing (TailwindClass(..))
 
 ${objects.map(objToElmTailwindClassFunction).join('')}`;
 

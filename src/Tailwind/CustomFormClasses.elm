@@ -1,7 +1,5 @@
 module Tailwind.CustomFormClasses exposing (..)
 
-import Tailwind.Types exposing (TailwindClass(..))
-
 {-|
 
 # Classes and their definitions
@@ -9,6 +7,8 @@ import Tailwind.Types exposing (TailwindClass(..))
 @docs form_checkbox, form_input, form_multiselect, form_radio, form_select, form_textarea
 
 -}
+
+import Tailwind.Types exposing (TailwindClass(..))
 
 
 {-| Maps to the "form-checkbox" Tailwind class, defined as:
