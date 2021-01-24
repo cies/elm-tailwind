@@ -53,13 +53,16 @@ For instance `px-4` is not a valid function name in Elm.
 
 The following conversion rules are applied (top to bottom) to avoid illegal names:
 
-* `:` becomes `__`, for instance `hover:bg-red-50` becomes `hover__bg_red_50`
 * `-m` becomes `neg_m`, for instance `-my-3` becomes `neg_my_3`
 * `-` becomes `neg`, for instance `-space-x-6` becomes `negspace_x_6`
 * `-` becomes `_`, for instance `x-3` becomes `x_3`
 * `.` (in decimals) becomes `dot`, for instance `x-0.5` becomes `x_0dot5`
 * `/` (in fractions) becomes `over`, for instance `w-2/6` becomes `w_2over6`
-* `2xl` (only the responsive variation) becomes `xxl`, for instance `2xl:w-32` becomes `xxl__w_32`
+* `2xl` (only the responsive variation) becomes `xxl`, for instance `2xl:w-32` becomes `xxl w_32`
+* `:` (variant selection) becomes ` `, for instance `hover:bg-red-50` becomes `hover bg_red_50`
+
+Only the variants that are shipped by default are supported: `hover`, `hoverGroup`, `focus`, `focusWithin`, `dark`
+and the responsive variants `sm`, `md`, `lg`, `xl`, `xxl`.
 
 
 ### Usage in production
