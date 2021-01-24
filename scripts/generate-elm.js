@@ -91,6 +91,27 @@ xxl : TailwindClass -> TailwindClass
 xxl (TailwindClass c) =
   TailwindClass ("2xl:" ++ c)
 
+{-| Add a focus-within variant prefix to the Tailwind rule, rules tagged by this variant only apply when inside element has focus.
+  Notice, doesn't make sure the class being passed in is going to work with a dark prefix: not all tailwind rules are dark capable.
+-}
+focusWithin : TailwindClass -> TailwindClass
+focusWithin (TailwindClass c) =
+  TailwindClass ("focus-within:" ++ c)
+
+{-| Add a hover variant prefix to the Tailwind rule, rules tagged by this variant only apply when hovered.
+  Notice, doesn't make sure the class being passed in is going to work with a dark prefix: not all tailwind rules are dark capable.
+-}
+hover : TailwindClass -> TailwindClass
+hover (TailwindClass c) =
+  TailwindClass ("hover:" ++ c)
+
+{-| Add a focus variant prefix to the Tailwind rule, rules tagged by this variant only apply when focused.
+  Notice, doesn't make sure the class being passed in is going to work with a dark prefix: not all tailwind rules are dark capable.
+-}
+focus : TailwindClass -> TailwindClass
+focus (TailwindClass c) =
+  TailwindClass ("focus:" ++ c)
+
 {-| Add a group-hover variant prefix to the Tailwind rule, rules tagged by this variant only apply when a marked ancestor element in hovered.
   Notice, doesn't make sure the class being passed in is going to work with a group-hover prefix: not all tailwind rules are group-hover capable.
 -}
@@ -126,7 +147,7 @@ const elmTailwindCustomFormsTemplate = objects =>
 
 import Tailwind.Types exposing (TailwindClass(..))
 
-{-
+{-|
 
 # Classes and their definitions
 
@@ -148,7 +169,7 @@ const contexts = {
     'cssIn': postcss.parse(read(tailwindCustomFormsPath)),
     'template': elmTailwindCustomFormsTemplate,
     'objects': {},
-    'elmOut': '../src/Tailwind/CustomForms.elm',
+    'elmOut': '../src/Tailwind/CustomFormClasses.elm',
   },
 }
 

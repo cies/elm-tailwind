@@ -2,7 +2,7 @@ module Tailwind.CustomFormClasses exposing (..)
 
 import Tailwind.Types exposing (TailwindClass(..))
 
-{-
+{-|
 
 # Classes and their definitions
 
