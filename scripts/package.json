@@ -1,0 +1,28 @@
+{
+  "name": "generate-elm-from-tailwind",
+  "version": "0.0.1",
+  "description": "Generate Elm library based on Tailwind CSS",
+  "main": "generate-elm.js",
+  "scripts": {
+    "generate": "node generate-elm.js",
+    "analyze": "(cd ..; elm-analyse -s -p 3001 -o)"
+  },
+  "keywords": [
+    "elm",
+    "generator",
+    "css",
+    "tailwind"
+  ],
+  "author": [
+    "Gage Peterson",
+    "Murphy Randle"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/custom-forms": "0.2.1",
+    "tailwindcss": "2.0.2",
+    "elm-analyse": "^0.16.5",
+    "lodash": "^4.17.20",
+    "postcss": "^8.2.4"
+  }
+}

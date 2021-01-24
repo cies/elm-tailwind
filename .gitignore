@@ -1,2 +1,16 @@
 elm-stuff
 node_modules
+
+# nodejs stuff
+build/Release
+node_modules/
+scripts/node_modules
+.npm
+yarn.lock
+.node_repl_history
+
+# editor and OS stuff
+.DS_Store
+.idea
+ignore
+dist

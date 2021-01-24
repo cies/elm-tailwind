@@ -1,4 +1,4 @@
-module Tailwind exposing (stylesheet, tailwind, withClasses, asClasses)
+module Tailwind exposing (tailwindCustomFormsCssCdn, tailwindWithDarkCssCdn, tailwind, withClasses, asClasses)
 
 {-| A small library that makes using [tailwind.css](https://tailwindcss.com/docs/what-is-tailwind/) a little easier and a little safer to use within Elm.
 
@@ -18,15 +18,20 @@ In there you'll also find functions for appending responsive qualifiers to those
 
 import Html
 import Html.Attributes exposing (href, rel)
-import Tailwind.Classes exposing (TailwindClass(..))
+import Tailwind.Types exposing (TailwindClass(..))
 
 
-{-| An HTML "link" tag that will import the default tailwind stylesheet
+{-| An HTML "link" tag refering to an unpurged (huge) minified version of the Tailwind (including dark) 2.0.2 stylesheet on the JSDelivr CDN.
 -}
-stylesheet : Html.Html msg
-stylesheet =
-    Html.node "link" [ rel "stylesheet", href "https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" ] []
+tailwindWithDarkCssCdn : Html.Html msg
+tailwindWithDarkCssCdn =
+    Html.node "link" [ rel "stylesheet", href "https://cdn.jsdelivr.net/npm/tailwindcss@2.0.2/dist/tailwind-dark.min.css" ] []
 
+{-| An HTML "link" tag refering to a minified version of the Tailwind Custom Forms 0.2.1 stylesheet on the JSDelivr CDN.
+-}
+tailwindCustomFormsCssCdn : Html.Html msg
+tailwindCustomFormsCssCdn =
+    Html.node "link" [ rel "stylesheet", href "https://cdn.jsdelivr.net/npm/@tailwindcss/custom-forms@0.2.1/dist/custom-forms.min.css" ] []
 
 {-| A convenience function for specifying classes as a list of strings
 -}
